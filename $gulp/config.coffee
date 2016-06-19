@@ -1,6 +1,5 @@
 cfg         = require '../gulpconfig.json' # think about detect work directory
 _           = require 'lodash'
-# path        = require 'path'
 
 defaultCfg = {
     "path": {

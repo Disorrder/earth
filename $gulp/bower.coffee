@@ -4,8 +4,11 @@ _ = require 'lodash'
 fs = require 'fs-extra'
 path = require 'path'
 gulp = require 'gulp'
-cache = require 'gulp-memory-cache'
-
+filter = require 'gulp-filter'
+concat = require 'gulp-concat'
+wrap = require 'gulp-wrap'
+hash = require 'gulp-hash'
+git = require 'gulp-git'
 
 fetchMain = (cfg) ->
     `var ignore` # conflict with lib name
@@ -35,8 +38,13 @@ fetchMain = (cfg) ->
 
 compile = ->
     files = fetchMain {path: cfg.path.bower, overrides: cfg.bowerOverrides}
+    jsFilter = filter "**/*.js", {restore: true}
     gulp.src files, {base: cfg.path.bower}
-        .pipe cache 'bower'
+        .pipe jsFilter
+        .pipe wrap "/* --- <%= file.relative %> --- */\n<%= contents %>"
+        .pipe concat path.join 'bower_components', 'libs.js'
+        .pipe hash {hashLength: 6}
+        .pipe jsFilter.restore
         .pipe gulp.dest cfg.path.build
 
 module.exports = compile

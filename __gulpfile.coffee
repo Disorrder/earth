@@ -117,7 +117,7 @@ tasks.add 'Bower', ->
         .pipe gulp.dest cfg.path.build
 
 tasks.add 'Babel', ->
-    getSources '**/*{.js,.jsx,.es6}'
+    getSources '**/*{.js,.es6}'
         .pipe babel()
         .on 'error', errorHndl
         .pipe gulp.dest cfg.path.build
