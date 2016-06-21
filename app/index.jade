@@ -6,11 +6,11 @@ html(ng-app="app")
         meta(name="viewport", content="initial-scale=1, user-scalable=no")
         title Disordered site
         //- link(rel="icon" href="/images/favicon4.png" sizes="128x128")
-        //- each style in files.getStyles()
-        //-     link(rel="stylesheet", href= style)
-        //- 
-        //- each script in files.getScripts()
-        //-     script(src= script)
+        each style in styles
+            link(rel="stylesheet", href=style)
+        
+        each script in scripts
+            script(src=script)
 
         script.
             var version = !{JSON.stringify(version || {})}

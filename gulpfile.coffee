@@ -7,6 +7,7 @@ path = require 'path'
 gulp = require 'gulp'
 cache = require 'gulp-memory-cache'
 bowerCompiler = require './$gulp/bower'
+typescriptCompiler = require './$gulp/typescript'
 jadeCompiler = require './$gulp/jade'
 
 gulp.task 'clean', (cb) =>
@@ -16,7 +17,7 @@ gulp.task 'clean', (cb) =>
     cb()
 # todo: add scripts and styles, think about own cache with getByGlob OR any like gulp.src cache.get().getFileNames
 gulp.task 'bower', bowerCompiler
-# gulp.task 'scripts', series ['bower']
+gulp.task 'typescript', typescriptCompiler
 gulp.task 'jade', jadeCompiler
 
 gulp.task 'test', (cb) =>
@@ -25,5 +26,5 @@ gulp.task 'test', (cb) =>
     # console.log _.values cache.get('bower').cache
     cb()
 
-gulp.task 'build', gulp.series ['clean', 'bower', 'jade', 'test']
-gulp.task 'default', gulp.series ['build']
+gulp.task 'build', gulp.series ['bower', 'typescript', 'jade', 'test']
+gulp.task 'default', gulp.series ['clean', 'build']

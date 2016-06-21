@@ -1,6 +1,7 @@
 cfg = require '../config'
 path = require 'path'
 gulp = require 'gulp'
+util = require 'gulp-util'
 ignore = require 'gulp-ignore'
 
 global.getSources = (glob) ->
