@@ -35,4 +35,8 @@ defaultCfg = {
     "version": "0.0.0"
 }
 
-module.exports = cfg = _.extend {}, defaultCfg, cfg
+config = _.extend({}, defaultCfg, cfg) if !config
+
+console.log 'OLOLOLOL'
+
+module.exports = config

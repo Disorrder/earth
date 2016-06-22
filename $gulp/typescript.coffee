@@ -3,8 +3,7 @@ cfg = require './config'
 gulp = require 'gulp'
 typescript = require 'gulp-typescript'
 
-compile = (locals = {}) ->
-    console.log gulp.lastRun 'typescript'
+compile = ->
     getSources '**/*.ts'
         .pipe typescript
             target: 'es5'

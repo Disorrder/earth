@@ -1,7 +1,6 @@
 {
     "webserver": {
-        "port": 1000,
-        "open": true,
-        "livereload": true
+        "host": "localhost",
+        "port": 1000
     }
 }

@@ -7,7 +7,6 @@ gulp = require 'gulp'
 filter = require 'gulp-filter'
 concat = require 'gulp-concat'
 wrap = require 'gulp-wrap'
-hash = require 'gulp-hash'
 git = require 'gulp-git'
 
 fetchMain = (cfg) ->
@@ -43,7 +42,6 @@ compile = ->
         .pipe jsFilter
         .pipe wrap "/* --- <%= file.relative %> --- */\n<%= contents %>"
         .pipe concat path.join 'bower_components', 'libs.js'
-        .pipe hash {hashLength: 6}
         .pipe jsFilter.restore
         .pipe gulp.dest cfg.path.build
 
