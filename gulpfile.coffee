@@ -1,15 +1,15 @@
 cfg = require './$gulp/config'
 
 require './$gulp/lib/global'
-_ = require 'lodash'
-fs = require 'fs-extra'
-path = require 'path'
-gulp = require 'gulp'
-bower = require './$gulp/bower'
-ts = require './$gulp/typescript'
-stylus = require './$gulp/stylus'
-jade = require './$gulp/jade'
-assets = require './$gulp/assets'
+_       = require 'lodash'
+fs      = require 'fs-extra'
+path    = require 'path'
+gulp    = require 'gulp'
+bower   = require './$gulp/bower'
+ts      = require './$gulp/typescript'
+stylus  = require './$gulp/stylus'
+jade    = require './$gulp/jade'
+assets  = require './$gulp/assets'
 
 gulp.task 'clean', (cb) =>
     fs.ensureDirSync cfg.path.build
@@ -24,12 +24,11 @@ gulp.task 'jade', jade
 gulp.task 'assets', assets
 
 gulp.task 'watch', ->
-    # TODO: hide glob into compileFn as an option
-    gulp.watch path.join(cfg.path.bower, 'bower.json'), gulp.series 'bower'
-    gulp.watch path.join(cfg.path.app, '**/*.ts'), gulp.series 'typescript'
-    gulp.watch path.join(cfg.path.app, '**/*.styl'), gulp.series 'stylus'
-    gulp.watch path.join(cfg.path.app, '**/*.jade'), gulp.series 'jade'
-    gulp.watch path.join(cfg.path.app, 'assets/**/*.*'), gulp.series 'assets'
+    gulp.watch bower.watch,  gulp.series 'bower'
+    gulp.watch ts.watch,     gulp.series 'typescript'
+    gulp.watch stylus.watch, gulp.series 'stylus'
+    gulp.watch jade.watch,   gulp.series 'jade'
+    gulp.watch assets.watch, gulp.series 'assets'
 
 gulp.task 'server', ->
     browserSync = require './$gulp/browser-sync'

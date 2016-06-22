@@ -35,6 +35,7 @@ fetchMain = (cfg) ->
         if file in ignore then return false
         true
 
+glob = 'bower.json'
 compile = ->
     files = fetchMain {path: cfg.path.bower, overrides: cfg.bowerOverrides}
     jsFilter = filter "**/*.js", {restore: true}
@@ -46,3 +47,4 @@ compile = ->
         .pipe gulp.dest cfg.path.build
 
 module.exports = compile
+module.exports.watch = path.join cfg.path.build, glob
