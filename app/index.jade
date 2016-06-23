@@ -4,8 +4,10 @@ html(ng-app="app")
         meta(charset="utf-8")
         meta(name="viewport", content="width=device-width, height=device-height" )
         meta(name="viewport", content="initial-scale=1, user-scalable=no")
-        title Disordered site
+        title Disordered Earth
         //- link(rel="icon" href="/images/favicon4.png" sizes="128x128")
-        script(src="/application/index.js")
+        link(rel="stylesheet", src="/application/style.css")
+        script(src="/bower_components/libs.js")
     body
-        div.viewport(ui-view="", ng-cloak)
+        div#screen
+        script(src="/application/index.js")
