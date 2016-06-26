@@ -35,5 +35,13 @@ gulp.task 'server', ->
     browserSync.watch path.join cfg.path.build, '**/*.*'
         .on 'change', browserSync.reload
 
+gulp.task 'serveprod', ->
+    connect = require 'gulp-connect'
+    connect.server
+        root: cfg.path.build
+        port: process.env.PORT || cfg.webserver.port
+        livereload: false
+
 gulp.task 'build', gulp.parallel 'bower', 'typescript', 'stylus', 'jade', 'assets'
 gulp.task 'default', gulp.series 'clean', 'build', gulp.parallel('server', 'watch')
+gulp.task 'heroku', gulp.series 'build', 'serveprod'
