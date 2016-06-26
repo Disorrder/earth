@@ -3,10 +3,10 @@
 
 const grad = Math.PI / 180;
 var stats = addStats();
+var gui = new dat.GUI();
 
 function addStats() {
     var stats = new Stats();
-    stats.setMode(0);
     $('#stats').append(stats.domElement);
     return stats;
 }
@@ -26,6 +26,7 @@ class SpaceController {
         this.addLight();
         this.addPlanet();
         this.addStars();
+        this.addGui();
         this.renderScene();
     }
 
@@ -75,6 +76,22 @@ class SpaceController {
     Update(dt) {
         this.earth.Update(dt);
     }
+
+    // --- GUI ---
+    addGui() {
+        var folder = gui.addFolder('Space');
+        folder.add(this, 'cameraX', -40, 40);
+        folder.add(this, 'cameraY', -40, 40);
+        folder.add(this, 'cameraZ', -40, 40);
+        folder.open();
+    }
+
+    public get cameraX() { return this.camera.position.x; }
+    public set cameraX(val) { this.camera.position.x = val; this.camera.lookAt(this.earth.position); }
+    public get cameraY() { return this.camera.position.y; }
+    public set cameraY(val) { this.camera.position.y = val; this.camera.lookAt(this.earth.position); }
+    public get cameraZ() { return this.camera.position.z; }
+    public set cameraZ(val) { this.camera.position.z = val; this.camera.lookAt(this.earth.position); }
 }
 
 class Earth {
@@ -90,6 +107,8 @@ class Earth {
         // this.addAtmosphere();
         this.addClouds();
     }
+
+    get position() { return this.planet.position }
 
     addPlanet() {
         var geometry = new THREE.SphereGeometry(this.radius, 32, 32);
