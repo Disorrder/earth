@@ -1,0 +1,10 @@
+{
+    "filesGlob": [
+        "src/application/**/*.ts",
+        "typings/**/*.d.ts"
+    ],
+    "compileOnSave": false,
+    "atom": {
+        "rewriteTsconfig": false
+    }
+}

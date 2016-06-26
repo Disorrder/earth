@@ -4,6 +4,7 @@
   "dependencies": {
     "jquery": "^3.0.0",
     "lodash": "^4.13.1",
-    "three.js": "threejs#*"
+    "three.js": "threejs#*",
+    "stats.js": "*"
   }
 }

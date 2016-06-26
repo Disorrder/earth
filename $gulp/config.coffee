@@ -4,7 +4,7 @@ _           = require 'lodash'
 defaultCfg = {
     "path": {
         "bower": "./",
-        "app": "./app/",
+        "app": "./src/",
         "build": "./.build/"
     },
     "filters": { # legacy
@@ -36,7 +36,5 @@ defaultCfg = {
 }
 
 config = _.extend({}, defaultCfg, cfg) if !config
-
-console.log 'OLOLOLOL'
 
 module.exports = config
