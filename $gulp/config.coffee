@@ -31,7 +31,11 @@ defaultCfg = {
     "ignore": [
         "**/mixins/**/*.{jade,styl}"
     ],
-    "bowerOverrides": {},
+    "bowerOverrides": {
+        "lodash": {
+            "main": "lodash.js"
+        }
+    },
     "version": "0.0.0"
 }
 

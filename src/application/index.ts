@@ -112,16 +112,24 @@ class Earth {
 
     addPlanet() {
         var geometry = new THREE.SphereGeometry(this.radius, 32, 32);
-    	var material = new THREE.MeshPhongMaterial({
+        var material = new THREE.MeshPhongMaterial({
             map: THREE.ImageUtils.loadTexture('assets/images/2_no_clouds_4k.jpg'),
             bumpMap: THREE.ImageUtils.loadTexture('assets/images/elev_bump_4k.jpg'),
             bumpScale: 0.05,
             specularMap: THREE.ImageUtils.loadTexture('assets/images/water_4k.png'),
             // specular: 0xbebebe
         });
-    	this.planet = new THREE.Mesh(geometry, material);
+        this.planet = new THREE.Mesh(geometry, material);
         this.planet.rotation.x = -23.44 * grad;
-    	this.scene.add(this.planet);
+        this.scene.add(this.planet);
+
+        loadTexture([
+            'assets/images/2_no_clouds_4k.jpg',
+            'assets/images/elev_bump_4k.jpg',
+            'assets/images/water_4k.png'
+        ]).then(([map, bumpMap, specularMap]) => {
+            console.log('YAHOO', arguments[0]);
+        })
     }
 
     addAtmosphere() {
