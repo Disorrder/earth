@@ -9,6 +9,7 @@ function addStats() {
 }
 
 class SpaceController {
+    public resources;
     public scene = new THREE.Scene();
     public camera = new THREE.PerspectiveCamera(45, this.windowRatio, 0.1, 1000);
     public renderer = new THREE.WebGLRenderer();
@@ -22,13 +23,28 @@ class SpaceController {
         this.initScene();
         this.addLight();
         this.addPlanet();
-        this.addStars();
         this.addGui();
         this.renderScene();
+
+        this.preload().then(() => {
+            this.addStars();
+        });
     }
 
     private get windowRatio() {
         return window.innerWidth / window.innerHeight;
+    }
+
+    get loaded() { return !!this.resources };
+
+    preload() {
+        return resourceLoader.getAll([
+            'Texture:assets/images/galaxy_starfield.png'
+        ]).then((res) => {
+            var r = this.resources = <any>{};
+            [r.stars] = res;
+            return res;
+        });
     }
 
     initScene() {
@@ -57,13 +73,13 @@ class SpaceController {
 
     addPlanet() {
         this.earth = new Earth(this.scene);
-        this.camera.lookAt(this.earth.planet.position);
+        this.camera.lookAt(this.earth.position);
     }
 
     addStars() {
         var geometry = new THREE.SphereGeometry(96, 32, 32);
         var material = new THREE.MeshBasicMaterial({
-            map: THREE.ImageUtils.loadTexture('assets/images/galaxy_starfield.png'),
+            map: this.resources.stars.data,
             side: THREE.BackSide
         });
         this.stars = new THREE.Mesh(geometry, material);
@@ -71,6 +87,7 @@ class SpaceController {
     }
 
     Update(dt) {
+        if (!this.loaded) return;
         this.earth.Update(dt);
     }
 
@@ -92,6 +109,7 @@ class SpaceController {
 }
 
 class Earth {
+    public resources;
     public planet;
     public atmosphere;
     public clouds;
@@ -100,33 +118,41 @@ class Earth {
     public cloudsAngularVelocity = 1;
 
     constructor(public scene) {
-        this.addPlanet();
-        // this.addAtmosphere();
-        this.addClouds();
+        this.preload().then(() => {
+            this.addPlanet();
+            // this.addAtmosphere();
+            this.addClouds();
+        });
     }
 
-    get position() { return this.planet.position }
+    get loaded() { return !!this.planet };
+    get position() { return this.planet ? this.planet.position : this.scene.position}
+
+    preload() {
+        return resourceLoader.getAll([
+            'Texture:assets/images/2_no_clouds_4k.jpg',
+            'Texture:assets/images/elev_bump_4k.jpg',
+            'Texture:assets/images/water_4k.png',
+            'Texture:assets/images/fair_clouds_4k.png'
+        ]).then((res) => {
+            var r = this.resources = <any>{};
+            [r.map, r.bump, r.water, r.clouds] = res;
+            return res;
+        });
+    }
 
     addPlanet() {
         var geometry = new THREE.SphereGeometry(this.radius, 32, 32);
         var material = new THREE.MeshPhongMaterial({
-            map: THREE.ImageUtils.loadTexture('assets/images/2_no_clouds_4k.jpg'),
-            bumpMap: THREE.ImageUtils.loadTexture('assets/images/elev_bump_4k.jpg'),
+            map: this.resources.map.data,
+            bumpMap: this.resources.bump.data,
             bumpScale: 0.05,
-            specularMap: THREE.ImageUtils.loadTexture('assets/images/water_4k.png'),
+            specularMap: this.resources.water.data
             // specular: 0xbebebe
         });
         this.planet = new THREE.Mesh(geometry, material);
         this.planet.rotation.x = -23.44 * grad;
         this.scene.add(this.planet);
-
-        loadTexture([
-            'assets/images/2_no_clouds_4k.jpg',
-            'assets/images/elev_bump_4k.jpg',
-            'assets/images/water_4k.png'
-        ]).then(([map, bumpMap, specularMap]) => {
-            console.log('YAHOO', arguments[0]);
-        })
     }
 
     addAtmosphere() {
@@ -143,8 +169,7 @@ class Earth {
     addClouds() {
         var geometry = new THREE.SphereGeometry(this.radius + 0.1, 32, 32);
     	var material = new THREE.MeshPhongMaterial({
-            map: THREE.ImageUtils.loadTexture('assets/images/fair_clouds_4k.png'),
-            // color: 0x7EC0EE,
+            map: this.resources.clouds.data,
             transparent: true
         });
         this.clouds = new THREE.Mesh(geometry, material);
@@ -152,6 +177,7 @@ class Earth {
     }
 
     Update(dt) {
+        if (!this.loaded) return;
         this.updatePlanet(dt);
         this.updateClouds(dt);
     }

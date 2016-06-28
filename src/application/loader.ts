@@ -22,7 +22,7 @@ class Resource {
                 this.url,
                 (data) => {
                     this.data = data;
-                    resolve(data);
+                    resolve(this);
                 },
                 (xhr) => {
                     this.inprogress.progress = xhr;
@@ -32,8 +32,9 @@ class Resource {
                     reject(new Error(`Texture ${this.url} load failed.`));
                 }
             )
-        }).finally(() => {
+        }).finally((res) => {
             this.inprogress = null;
+            return res;
         });
     }
 
@@ -58,7 +59,7 @@ class ResourceLoader {
 
     public get(typed: string) {
         var res = this.getSync(typed);
-        return res.data ? Promise.resolve() : res.fetch();
+        return res.data ? Promise.resolve(res) : res.fetch();
     }
 
     public getAll(list: string[]) {
@@ -66,3 +67,5 @@ class ResourceLoader {
         return Promise.all(list);
     }
 }
+
+var resourceLoader = new ResourceLoader();
