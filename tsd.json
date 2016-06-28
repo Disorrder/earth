@@ -10,6 +10,9 @@
     },
     "threejs/three.d.ts": {
       "commit": "81cec20ea38ec544df4734674e38d06181ac2718"
+    },
+    "lodash/lodash.d.ts": {
+      "commit": "3bbe35a4cfdf09bd2a87ed660bf918131679da19"
     }
   }
 }

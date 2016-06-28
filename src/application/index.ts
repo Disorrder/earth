@@ -1,6 +1,3 @@
-/// <refernce path="/../typings/jquery/jquery.d.ts">
-/// <refernce path="/../typings/threejs/three.d.ts">
-
 const grad = Math.PI / 180;
 var stats = addStats();
 var gui = new dat.GUI();
