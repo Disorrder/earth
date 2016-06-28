@@ -13,6 +13,15 @@
     },
     "lodash/lodash.d.ts": {
       "commit": "3bbe35a4cfdf09bd2a87ed660bf918131679da19"
+    },
+    "dat-gui/dat-gui.d.ts": {
+      "commit": "3bbe35a4cfdf09bd2a87ed660bf918131679da19"
+    },
+    "es6-promise/es6-promise.d.ts": {
+      "commit": "3bbe35a4cfdf09bd2a87ed660bf918131679da19"
+    },
+    "core-js/core-js.d.ts": {
+      "commit": "3bbe35a4cfdf09bd2a87ed660bf918131679da19"
     }
   }
 }
