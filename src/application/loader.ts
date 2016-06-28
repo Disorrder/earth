@@ -1,29 +1,68 @@
-/// <refernce path="/../typings/jquery/jquery.d.ts">
+class Resource {
+    public url: string;
+    public type: string;
+    public data;
+    public inprogress;
+    private loader;
 
-function loadTexture(url) {
-    if (!_.isArray(url)) url = [url];
+    constructor(typed: string) { // typed url is Type[:url],
+        [this.type, this.url] = typed.split(':');
+        this.loader = new THREE[`${this.type}Loader`]();
+    }
 
-    var promises = url.map(item => {
-        var promise;
-        return promise = new Promise((resolve, reject) => {
-            new THREE.TextureLoader().load(
-                item,
-                (texture) => { resolve(texture) },
-                (xhr) => { promise.progress = xhr; console.log('prog', item, `${xhr.loaded} from ${xhr.total}`, 'total:', all.getProgress()); },
-                (xhr) => { reject(new Error(`Texture ${item} load failed.`)) }
+    public setUrl(url: string) {
+        this.url = url;
+        return this;
+    }
+
+    public fetch() {
+        if (this.inprogress) return this.inprogress;
+        return this.inprogress = new Promise((resolve, reject) => {
+            this.loader.load(
+                this.url,
+                (data) => {
+                    this.data = data;
+                    resolve(data);
+                },
+                (xhr) => {
+                    this.inprogress.progress = xhr;
+                    console.info(`Loading ${this.url}: ${xhr.loaded} from ${xhr.total} complete.`);
+                },
+                (xhr) => {
+                    reject(new Error(`Texture ${this.url} load failed.`));
+                }
             )
+        }).finally(() => {
+            this.inprogress = null;
         });
-    });
+    }
 
-    console.log(promises);
-    var all = Promise.all(promises);
-    all.getProgress = () => {
-        var loaded = promises.map(item => item.progress.loaded);
-        var total = promises.map(item => item.progress.total);
-        return {
-            loaded: _.sumBy(promises, 'progress.loaded'),
-            total: _.sumBy(promises, 'progress.total')
-        }
-    };
-    return all;
+    public purge() {
+        this.inprogress = null;
+        this.loader = null;
+        this.data = null;
+        return this;
+    }
+}
+
+class ResourceLoader {
+    public cache = true;
+    public cached = [];
+
+    public getSync(typed: string) {
+        var [type, url] = typed.split(':');
+        var cached = _.find(this.cached, {url});
+        if (cached) return cached;
+        return new Resource(typed);
+    }
+
+    public get(typed: string) {
+        var res = this.getSync(typed);
+        return res.data ? Promise.resolve() : res.fetch();
+    }
+
+    public getAll(list: string[]) {
+        list = list.map((item) => this.get(item));
+        return Promise.all(list);
+    }
 }
