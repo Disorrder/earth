@@ -6,6 +6,7 @@
     "lodash": "^4.13.1",
     "three.js": "threejs#*",
     "stats.js": "*",
-    "dat-gui": "^0.5.1"
+    "dat-gui": "^0.5.1",
+    "q": "^1.4.1"
   }
 }

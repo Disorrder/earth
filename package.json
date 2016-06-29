@@ -23,11 +23,13 @@
     "gulp-util": "^3.0.2",
     "gulp-wrap": "^0.8.0",
     "lodash": "^4.13.1",
-    "nib": "^1.1.0"
+    "nib": "^1.1.0",
+    "tsd": "^0.6.5"
   },
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "bower install && npm run tsd install",
     "gulp": "./node_modules/.bin/gulp",
+    "tsd": "./node_modules/.bin/tsd",
     "start": "npm run gulp heroku"
   },
   "engine": {

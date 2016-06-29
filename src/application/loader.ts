@@ -17,24 +17,28 @@ class Resource {
 
     public fetch() {
         if (this.inprogress) return this.inprogress;
-        return this.inprogress = new Promise((resolve, reject) => {
-            this.loader.load(
-                this.url,
-                (data) => {
-                    this.data = data;
-                    resolve(this);
-                },
-                (xhr) => {
-                    this.inprogress.progress = xhr;
-                    console.info(`Loading ${this.url}: ${xhr.loaded} from ${xhr.total} complete.`);
-                },
-                (xhr) => {
-                    reject(new Error(`Texture ${this.url} load failed.`));
-                }
-            )
-        }).finally((res) => {
+
+        var deferred = Q.defer();
+        this.inprogress = deferred.promise;
+
+        this.loader.load(
+            this.url,
+            (data) => {
+                this.data = data;
+                deferred.resolve(this);
+            },
+            (xhr) => {
+                this.inprogress.progress = xhr;
+                console.info(`Loading ${this.url}: ${xhr.loaded} from ${xhr.total} complete.`);
+                deferred.notify(xhr);
+            },
+            (xhr) => {
+                deferred.reject(new Error(`Texture ${this.url} load failed.`));
+            }
+        );
+
+        return this.inprogress.finally(() => {
             this.inprogress = null;
-            return res;
         });
     }
 
@@ -59,12 +63,12 @@ class ResourceLoader {
 
     public get(typed: string) {
         var res = this.getSync(typed);
-        return res.data ? Promise.resolve(res) : res.fetch();
+        return res.data ? Q.when(res) : res.fetch();
     }
 
     public getAll(list: string[]) {
         list = list.map((item) => this.get(item));
-        return Promise.all(list);
+        return Q.all(list);
     }
 }
 

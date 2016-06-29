@@ -3,7 +3,4 @@
 /// <reference path="../../typings/lodash/lodash.d.ts" />
 /// <reference path="../../typings/dat-gui/dat-gui.d.ts" />
 /// <reference path="../../typings/core-js/core-js.d.ts" />
-
-interface Promise<T> {
-    finally: any;
-}
+/// <reference path="../../typings/q/Q.d.ts" />

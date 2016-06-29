@@ -34,6 +34,9 @@ defaultCfg = {
     "bowerOverrides": {
         "lodash": {
             "main": "lodash.js"
+        },
+        "q": {
+            "main": "q.js"
         }
     },
     "version": "0.0.0"
