@@ -39,7 +39,7 @@ class SpaceController {
 
     preload() {
         return resourceLoader.getAll([
-            'Texture:assets/images/galaxy_starfield.png'
+            'Texture:assets/space/galaxy_starfield.png'
         ]).then((res) => {
             var r = this.resources = <any>{};
             [r.stars] = res;
@@ -130,10 +130,10 @@ class Earth {
 
     preload() {
         return resourceLoader.getAll([
-            'Texture:assets/images/2_no_clouds_4k.jpg',
-            'Texture:assets/images/elev_bump_4k.jpg',
-            'Texture:assets/images/water_4k.png',
-            'Texture:assets/images/fair_clouds_4k.png'
+            'Texture:assets/earth/2_no_clouds_4k.jpg',
+            'Texture:assets/earth/elev_bump_4k.jpg',
+            'Texture:assets/earth/water_4k.png',
+            'Texture:assets/earth/fair_clouds_4k.png'
         ]).then((res) => {
             var r = this.resources = <any>{};
             [r.map, r.bump, r.water, r.clouds] = res;

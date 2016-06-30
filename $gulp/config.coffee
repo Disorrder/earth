@@ -17,9 +17,10 @@ defaultCfg = {
         "fonts": "**/*.{eot,svg,ttf,woff,woff2}"
     },
     "excludePrefix": "__",
+    "notify": true,
     "usemin": true, # not implemented
     "hashLength": 6, # may be rename
-    "webpack": false,
+    "webpack": false, # not implemented
     "webserver": {
         "https": false,
         "hostname": "localhost",

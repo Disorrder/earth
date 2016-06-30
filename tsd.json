@@ -22,6 +22,12 @@
     },
     "core-js/core-js.d.ts": {
       "commit": "3bbe35a4cfdf09bd2a87ed660bf918131679da19"
+    },
+    "q/Q.d.ts": {
+      "commit": "9d145c1a73a8e27a54d8a11aa0b46d3f8a759b89"
+    },
+    "stats/stats.d.ts": {
+      "commit": "9d145c1a73a8e27a54d8a11aa0b46d3f8a759b89"
     }
   }
 }

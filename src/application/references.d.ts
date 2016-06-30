@@ -4,3 +4,8 @@
 /// <reference path="../../typings/dat-gui/dat-gui.d.ts" />
 /// <reference path="../../typings/core-js/core-js.d.ts" />
 /// <reference path="../../typings/q/Q.d.ts" />
+/// <reference path="../../typings/stats/stats.d.ts" />
+
+declare interface Stats {
+    domElement: any;
+}

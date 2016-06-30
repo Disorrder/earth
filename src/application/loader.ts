@@ -67,8 +67,8 @@ class ResourceLoader {
     }
 
     public getAll(list: string[]) {
-        list = list.map((item) => this.get(item));
-        return Q.all(list);
+        var promises = list.map((item) => this.get(item));
+        return Q.all(promises);
     }
 }
 
